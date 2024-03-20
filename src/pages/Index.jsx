@@ -42,49 +42,7 @@ const Index = () => {
         Skincare Brand Experimentation Platform
       </Heading>
 
-      <HStack spacing={8} alignItems="flex-start">
-        <VStack spacing={4} alignItems="stretch" flex={1}>
-          <Heading as="h2" size="lg">
-            Past Actions
-          </Heading>
-          <Table variant="simple">
-            <Thead>
-              <Tr>
-                <Th>Action</Th>
-                <Th isNumeric>Retailers Acquired</Th>
-                <Th isNumeric>Orders Placed</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {pastActions.map((action) => (
-                <Tr key={action.id}>
-                  <Td>{action.action}</Td>
-                  <Td isNumeric>{action.retailersAcquired}</Td>
-                  <Td isNumeric>{action.ordersPlaced}</Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </VStack>
-
-        <VStack spacing={4} alignItems="stretch" flex={1}>
-          <Heading as="h2" size="lg">
-            Select Future Action
-          </Heading>
-          <Select placeholder="Select an action" value={selectedAction} onChange={handleActionChange}>
-            {futureActions.map((action, index) => (
-              <option key={index} value={action}>
-                {action}
-              </option>
-            ))}
-          </Select>
-          <Button colorScheme="blue" onClick={handleActionSubmit}>
-            Submit
-          </Button>
-        </VStack>
-      </HStack>
-
-      <VStack spacing={8} mt={12}>
+      <VStack spacing={8} mt={8}>
         <Heading as="h2" size="lg">
           Key Metrics
         </Heading>
@@ -107,6 +65,70 @@ const Index = () => {
           </Stat>
         </HStack>
       </VStack>
+
+      <HStack spacing={8} alignItems="flex-start" mt={8}>
+        <VStack spacing={4} alignItems="stretch" flex={1}>
+          <Heading as="h2" size="lg">
+            Past Actions
+          </Heading>
+          <Table variant="simple">
+            <Thead>
+              <Tr>
+                <Th>Action</Th>
+                <Th isNumeric>Retailers Acquired</Th>
+                <Th isNumeric>Retailers Change</Th>
+                <Th isNumeric>Orders Placed</Th>
+                <Th isNumeric>Orders Change</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {pastActions.map((action, index) => (
+                <Tr key={action.id}>
+                  <Td>{action.action}</Td>
+                  <Td isNumeric>{action.retailersAcquired}</Td>
+                  <Td isNumeric>
+                    {index > 0 ? (
+                      <>
+                        <StatArrow type="increase" />
+                        {action.retailersAcquired - pastActions[index - 1].retailersAcquired}
+                      </>
+                    ) : (
+                      "-"
+                    )}
+                  </Td>
+                  <Td isNumeric>{action.ordersPlaced}</Td>
+                  <Td isNumeric>
+                    {index > 0 ? (
+                      <>
+                        <StatArrow type="increase" />
+                        {action.ordersPlaced - pastActions[index - 1].ordersPlaced}
+                      </>
+                    ) : (
+                      "-"
+                    )}
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </VStack>
+
+        <VStack spacing={4} alignItems="stretch" flex={1}>
+          <Heading as="h2" size="lg">
+            Select Future Action
+          </Heading>
+          <Select placeholder="Select an action" value={selectedAction} onChange={handleActionChange}>
+            {futureActions.map((action, index) => (
+              <option key={index} value={action}>
+                {action}
+              </option>
+            ))}
+          </Select>
+          <Button colorScheme="blue" onClick={handleActionSubmit}>
+            Submit
+          </Button>
+        </VStack>
+      </HStack>
     </Box>
   );
 };
